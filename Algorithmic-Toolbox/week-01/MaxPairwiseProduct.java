@@ -35,6 +35,10 @@ public class MaxPairwiseProduct {
 
 
     public static void main(String[] args) {
+
+        //Stress Test
+
+        /*
         Random random = new Random();
 
         while (true) {
@@ -42,7 +46,7 @@ public class MaxPairwiseProduct {
             int[] numbers = new int[n];
 
             for (int i = 0; i < n; i++) {
-                numbers[i] = random.nextInt(4) + 2;
+                numbers[i] = random.nextInt(3) + 2;
                 System.out.print(numbers[i] + " ");
             }
 
@@ -57,13 +61,15 @@ public class MaxPairwiseProduct {
             }
 
         }
-//        FastScanner scanner = new FastScanner(System.in);
-//        int n = scanner.nextInt();
-//        int[] numbers = new int[n];
-//        for (int i = 0; i < n; i++) {
-//            numbers[i] = scanner.nextInt();
-//        }
-//        System.out.println(getMaxPairwiseProductFast(numbers));
+        */
+
+        FastScanner scanner = new FastScanner(System.in);
+        int n = scanner.nextInt();
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            numbers[i] = scanner.nextInt();
+        }
+        System.out.println(getMaxPairwiseProductFast(numbers));
     }
 
     static class FastScanner {
