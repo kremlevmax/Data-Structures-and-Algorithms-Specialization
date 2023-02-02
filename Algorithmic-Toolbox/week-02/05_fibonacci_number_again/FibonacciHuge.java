@@ -1,4 +1,7 @@
 import java.util.*;
+import java.math.*;
+import java.io.*;
+
 
 public class FibonacciHuge {
     private static long getFibonacciHugeNaive(long n, long m) {
@@ -17,33 +20,47 @@ public class FibonacciHuge {
         return current;
     }
 
-    private static long[][] multiplyMatrix(long[][] matrix1, long[][] matrix2) {
-        long x1 = matrix1[0][0]*matrix2[0][0] + matrix1[1][0]*matrix2[0][1];
-        long y1 = matrix1[0][1]*matrix2[0][0] + matrix1[1][1]*matrix2[0][1];
-        long x2 = matrix1[0][0]*matrix2[1][0] + matrix1[1][0]*matrix2[1][1];
-        long y2 = matrix1[0][1]*matrix2[1][0] + matrix1[1][1]*matrix2[1][1];
+    private static BigInteger[][] multiplyMatrix(BigInteger[][] matrix1, BigInteger[][] matrix2) {
+        BigInteger x1 = matrix1[0][0].multiply(matrix2[0][0]).add(matrix1[1][0].multiply(matrix2[0][1]));
+        BigInteger y1 = matrix1[0][1].multiply(matrix2[0][0]).add(matrix1[1][1].multiply(matrix2[0][1]));
+        BigInteger x2 = matrix1[0][0].multiply(matrix2[1][0]).add(matrix1[1][0].multiply(matrix2[1][1]));
+        BigInteger y2 = matrix1[0][1].multiply(matrix2[1][0]).add(matrix1[1][1].multiply(matrix2[1][1]));
 
-        return new long[][]{{x1, x2}, {y1, y2}};
+        return new BigInteger[][]{{x1, x2}, {y1, y2}};
     }
 
 
-    private static long[][] matrixPower(long[][] matrix, long power) {
-        long[][] result = matrix;
+    private static BigInteger[][] matrixPower(BigInteger[][] matrix, long power) {
+        BigInteger[][] result = matrix;
 
-        for (long i = 0; i < power ; i++) {
+        if (power % 2 == 0) {
+            for (long i = 1; i < (power/2) ; i++) {
+                result = multiplyMatrix(result, matrix);
+            }
+            result = multiplyMatrix(result, result);
             result = multiplyMatrix(result, matrix);
+        } else {
+            for (long i = 1; i < (power/2) +1 ; i++) {
+                result = multiplyMatrix(result, matrix);
+            }
+            result = multiplyMatrix(result, result);
         }
+
+
         return result;
     }
 
-    private static long getFibonacciHuge(long number, long divisor) {
-        long[][] qMatrix = new long[][]{{0,1}, {1, 1}};
+    private static BigInteger getFibonacciHuge(long number, long divisor) {
+        BigInteger[][] qMatrix = new BigInteger[][]{
+                {BigInteger.valueOf(0),BigInteger.valueOf(1)},
+                {BigInteger.valueOf(1), BigInteger.valueOf(1)}
+        };
 
         if (number < 2) {
-            return number;
+            return BigInteger.valueOf(number).mod(BigInteger.valueOf(divisor));
         }
 
-        return matrixPower(qMatrix, number)[0][0];
+        return matrixPower(qMatrix, number)[0][0].mod(BigInteger.valueOf(divisor));
     }
     
     public static void main(String[] args) {
